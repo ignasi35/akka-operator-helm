@@ -35,20 +35,6 @@ data:
       aggregation:
         bufferSeconds: 60
 
-    - name: instance_time
-      type: int
-      endpoints:
-      - name: on_disk
-      - name: servicecontrol
-
-      # The passthrough marker indicates that no aggregation should
-      # occur for this metric. Reports received are immediately sent
-      # to the reporting endpoint. We use passthrough for the
-      # instance_time metric since reports are generated
-      # automatically by a heartbeat source defined in a later
-      # section.
-      passthrough: {}
-
     # The endpoints section defines where metering data is ultimately
     # sent. Currently supported endpoints include:
     # * disk - some directory on the local filesystem
@@ -68,18 +54,6 @@ data:
         serviceName: akka-cloud-platform.mp-lightbend-public.appspot.com
         consumerId: $AGENT_CONSUMER_ID
 
-    # The sources section lists metric data sources run by the agent
-    # itself. The currently-supported source is 'heartbeat', which
-    # sends a defined value to a metric at a defined interval. In
-    # this example, the heartbeat sends a 60-second value through the
-    # "instance_time" metric every minute.
-    sources:
-    - name: instance_time_heartbeat
-      heartbeat:
-        metric: instance_time
-        intervalSeconds: 60
-        value:
-          int64Value: 60
 {{- end }}
 {{- end }}
 ---
